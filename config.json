@@ -1,0 +1,39 @@
+{
+  "commands": {
+    "greet": {
+      "script": "scripts/greet.sh",
+      "description": "Chào hỏi người dùng",
+      "flags": {
+        "name": {
+          "short": "n",
+          "required": true,
+          "description": "Tên người cần chào"
+        },
+        "lang": {
+          "short": "l",
+          "required": false,
+          "default": "vi",
+          "description": "Ngôn ngữ (vi/en)"
+        }
+      }
+    },
+    "aim-scan": {
+      "script": "scripts/aim-scan.sh",
+      "description": "Scan AIM",
+      "flags": {
+        "on": {
+          "short": "n",
+          "boolean": true,
+          "required": false,
+          "description": "Bật scan"
+        },
+        "off": {
+          "short": "f",
+          "boolean": true,
+          "required": false,
+          "description": "Tắt scan"
+        }
+      }
+    }
+  }
+}

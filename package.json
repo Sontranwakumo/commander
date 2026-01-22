@@ -1,0 +1,23 @@
+{
+  "name": "commander",
+  "version": "1.0.0",
+  "description": "Custom command executor system",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "commander": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "commander",
+    "cli",
+    "shell"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^11.1.0"
+  }
+}
