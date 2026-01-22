@@ -1,15 +1,10 @@
 #!/bin/bash
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# PROJECT_DIR là thư mục cha của scripts (thư mục commander)
+PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$SCRIPT_DIR/common.sh"
 
-# Load env từ file load-env.sh trong cùng thư mục
-if [ -f "$SCRIPT_DIR/load-env.sh" ]; then
-  source "$SCRIPT_DIR/load-env.sh"
-else
-  echo "Cảnh báo: Không tìm thấy file load-env.sh trong $SCRIPT_DIR"
-fi
-
-# Parse arguments - xử lý cả boolean flags và flags có value
 for arg in "$@"; do
   if [[ "$arg" == *"="* ]]; then
     # Flag có value (key="value")
@@ -22,14 +17,37 @@ for arg in "$@"; do
   fi
 done
 
+auto_load_env "$PROJECT_DIR"
+
+IS_VPN=false
+if [ "$IS_VPN" = true ]; then
+  export DEV_DB_HOST="100.70.254.142"
+else
+  export DEV_DB_HOST="10.123.31.100"
+fi
+
+export PGPASSWORD=$PGPASSWORD_DEV
+export PGHOST=$DEV_DB_HOST
+export PGUSER="local_postgres_user"
+export PGPORT=30838
+export PGDATABASE="aim-api"
+
 turnOnAimScan() {
+  psql <<EOF
+BEGIN;
+DELETE FROM public.processed_blocks WHERE chain_id = 97;
+UPDATE public.networks SET is_paused_scan = false WHERE chain_id = 97;
+COMMIT;
+EOF
 
 }
 
 turnOffAimScan() {
-  echo "Đang tắt scan AIM..."
-  # Thêm logic tắt scan ở đây
-  echo "✅ Scan đã được tắt"
+  psql <<EOF
+BEGIN;
+UPDATE public.networks SET is_paused_scan = true WHERE chain_id = 97;
+COMMIT;
+EOF
 }
 
 # Xử lý logic scan
