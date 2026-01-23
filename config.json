@@ -32,6 +32,12 @@
           "boolean": true,
           "required": false,
           "description": "Tắt scan"
+        },
+        "env": {
+          "short": "e",
+          "required": false,
+          "default": "dev",
+          "description": "Môi trường (dev/prod)"
         }
       }
     }
