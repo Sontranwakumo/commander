@@ -12,12 +12,12 @@ if [ "$env" = "dev" ]; then
   export PGDATABASE="aim-api"
 elif [ "$env" = "local" ]; then
   export PGPASSWORD='dhruv314'
-  export PGHOST=$LOCAL_DB_HOST
+  export PGHOST=localhost
   export PGUSER="postgres"
   export PGPORT=5432
   export PGDATABASE="aim_api"
 fi
-echo "Updating AIM scan to $env database, DBHost: $PGHOST"
+echo "Using $env database, DBHost: $PGHOST"
 
 if [ "$on" = "true" ]; then
   psql <<SQL
@@ -32,7 +32,8 @@ SELECT chain_id, is_paused_scan FROM public.networks WHERE chain_id = 97;
 SQL
 fi
 
-[ "$off" = "true" ] && psql <<SQL
+if [ "$off" = "true" ]; then
+  psql <<SQL
 BEGIN;
 UPDATE public.networks SET is_paused_scan = true WHERE chain_id = 97;
 COMMIT;
@@ -41,6 +42,17 @@ SQL
   psql <<SQL
 SELECT chain_id, is_paused_scan FROM public.networks WHERE chain_id = 97;
 SQL
+fi
+
+if [ "$view" = "true" ]; then
+  result=$(psql -t -A -c "SELECT chain_id, is_paused_scan FROM public.networks WHERE chain_id = 97")
+  if [ -n "$result" ]; then
+    IFS='|' read -r chain_id is_paused_scan <<< "$result"
+    status=$([ "$is_paused_scan" = "t" ] && echo "paused" || echo "running")
+    echo "AIM scan (chain_id=$chain_id): $status"
+  else
+    echo "No record found for chain_id=97"
+  fi
 fi
 
 exit 0

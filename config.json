@@ -38,6 +38,12 @@
           "required": false,
           "default": "dev",
           "description": "Môi trường (dev/prod)"
+        },
+        "view": {
+          "short": "v",
+          "boolean": true,
+          "required": false,
+          "description": "Xem trạng thái AIM scan"
         }
       }
     }
