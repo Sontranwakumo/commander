@@ -44,7 +44,7 @@ SELECT chain_id, is_paused_scan FROM public.networks WHERE chain_id = 97;
 SQL
 fi
 
-if [ "$view" = "true" ]; then
+if [ "$status" = "true" ]; then
   result=$(psql -t -A -c "SELECT chain_id, is_paused_scan FROM public.networks WHERE chain_id = 97")
   if [ -n "$result" ]; then
     IFS='|' read -r chain_id is_paused_scan <<< "$result"
