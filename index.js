@@ -24,6 +24,8 @@ function loadConfig() {
 // Thực thi script shell
 function executeScript(scriptPath, flags, commandConfig) {
   try {
+    const time = new Date().toISOString();
+    console.log(`[${time}] Executing script: ${scriptPath}`);
     const fullPath = join(__dirname, scriptPath);
 
     // Tạo chuỗi arguments từ flags
