@@ -1,0 +1,5 @@
+# AIM scan tắt lúc 17:30 mỗi ngày (giờ máy, thường là UTC+7)
+30 17 * * * /Users/artteiv/Desktop/Workspace/commander/cron-scripts/cron-aim-scan-off.sh >> /Users/artteiv/Desktop/Workspace/commander/logs/aim-scan-off.log 2>&1
+
+# Ví dụ: greet mỗi giờ ở phút 56 (test)
+17 * * * * /Users/artteiv/Desktop/Workspace/commander/cron-scripts/greet.sh >> /Users/artteiv/Desktop/Workspace/commander/logs/greet.log 2>&1
